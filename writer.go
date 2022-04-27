@@ -14,7 +14,7 @@ import (
 	"reflect"
 )
 
-const DefaulQuality = 90
+const DefaultQuality = 90
 
 // Options are the encoding parameters.
 type Options struct {
@@ -67,7 +67,7 @@ func encode(w io.Writer, m image.Image, opt *Options) (err error) {
 			panic("image/webp: Encode, unreachable!")
 		}
 	} else {
-		quality := float32(DefaulQuality)
+		quality := float32(DefaultQuality)
 		if opt != nil {
 			quality = opt.Quality
 		}

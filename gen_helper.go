@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build ingore
+// +build ignore
 
 package main
 
@@ -12,9 +12,12 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 	"path/filepath"
 	"strings"
 )
+
+const libPath = "internal/libwebp"
 
 var (
 	oldGenFiles = make(map[string]bool)
@@ -38,15 +41,18 @@ func clearOldGenFiles() {
 }
 
 func genIncludeFiles() {
-	ss := parseCMakeListsTxt("internal/libwebp-1.0.2/CMakeLists.txt", "WEBP_SRC_DIR", "*.c")
-	muxSS, err := findFiles("internal/libwebp-1.0.2/src/mux", "*.c")
+	ss := parseCMakeListsTxt(libPath + "/CMakeLists.txt", "WEBP_SRC_DIR", "*.c")
+	muxSS, err := findFiles(libPath +"/src/mux", "*.c")
 	if err != nil {
 		log.Fatal(err)
 	}
 	ss = append(ss, muxSS...)
 	for i := 0; i < len(ss); i++ {
-		relpath := ss[i][23:] // drop `./`
-		newname := "z_libwebp_" + strings.Replace(relpath, "/", "_", -1)
+		relpath := ss[i][len(libPath)+1:] // drop `./`
+		if os.PathSeparator != '/' {
+			relpath = strings.ReplaceAll(relpath, string([]rune{os.PathSeparator}), "/")
+		}
+		newname := "z_libwebp_" + strings.ReplaceAll(relpath, "/", "_")
 
 		ioutil.WriteFile(newname, []byte(fmt.Sprintf(
 			`// Copyright 2014 <chaishushan{AT}gmail.com>. All rights reserved.
