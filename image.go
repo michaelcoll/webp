@@ -28,7 +28,7 @@ var (
 	_ MemP        = (*MemPImage)(nil)
 )
 
-// MemP Image Spec (Native Endian), see https://github.com/chai2010/image.
+// MemP Image Spec (Native Endian), see https://github.com/michaelcoll/image.
 type MemP interface {
 	MemPMagic() string
 	Bounds() image.Rectangle
@@ -241,7 +241,7 @@ func (p *MemPImage) ColorModel() color.Model {
 }
 
 func (p *MemPImage) At(x, y int) color.Color {
-	if !(image.Point{x, y}.In(p.XRect)) {
+	if !(image.Point{X: x, Y: y}.In(p.XRect)) {
 		return MemPColor{
 			Channels: p.XChannels,
 			DataType: p.XDataType,
@@ -257,7 +257,7 @@ func (p *MemPImage) At(x, y int) color.Color {
 }
 
 func (p *MemPImage) PixelAt(x, y int) []byte {
-	if !(image.Point{x, y}.In(p.XRect)) {
+	if !(image.Point{X: x, Y: y}.In(p.XRect)) {
 		return nil
 	}
 	i := p.PixOffset(x, y)
@@ -266,7 +266,7 @@ func (p *MemPImage) PixelAt(x, y int) []byte {
 }
 
 func (p *MemPImage) Set(x, y int, c color.Color) {
-	if !(image.Point{x, y}.In(p.XRect)) {
+	if !(image.Point{X: x, Y: y}.In(p.XRect)) {
 		return
 	}
 	i := p.PixOffset(x, y)
@@ -276,7 +276,7 @@ func (p *MemPImage) Set(x, y int, c color.Color) {
 }
 
 func (p *MemPImage) SetPixel(x, y int, c []byte) {
-	if !(image.Point{x, y}.In(p.XRect)) {
+	if !(image.Point{X: x, Y: y}.In(p.XRect)) {
 		return
 	}
 	i := p.PixOffset(x, y)
