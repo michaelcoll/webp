@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+//go:build ignore
 // +build ignore
 
 package main
@@ -41,8 +42,8 @@ func clearOldGenFiles() {
 }
 
 func genIncludeFiles() {
-	ss := parseCMakeListsTxt(libPath + "/CMakeLists.txt", "WEBP_SRC_DIR", "*.c")
-	muxSS, err := findFiles(libPath +"/src/mux", "*.c")
+	ss := parseCMakeListsTxt(libPath+"/CMakeLists.txt", "WEBP_SRC_DIR", "*.c")
+	muxSS, err := findFiles(libPath+"/src/mux", "*.c")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -123,6 +124,6 @@ func parseCMakeListsTxt(filename, varname, ext string) (ss []string) {
 	return
 }
 
-func findFiles(dir, ext string) ([]string, error){
+func findFiles(dir, ext string) ([]string, error) {
 	return filepath.Glob(fmt.Sprintf("%s/%s", dir, ext))
 }

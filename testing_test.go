@@ -4,7 +4,7 @@
 
 // testing helper, please fork this file, and fix the package name.
 //
-// See http://github.com/chai2010/assert
+// See http://github.com/michaelcoll/assert
 
 package webp
 
